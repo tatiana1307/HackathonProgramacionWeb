@@ -339,30 +339,167 @@
             }
         }
 
+        // Cargar usuarios desde localStorage o usar usuarios por defecto
+        function cargarUsuarios() {
+            const usuariosGuardados = localStorage.getItem('usuariosRegistrados');
+            if (usuariosGuardados) {
+                return JSON.parse(usuariosGuardados);
+            } else {
+                // Usuarios por defecto
+                const usuariosDefault = [
+                    { email: 'admin@biblioteca.com', password: 'Admin123!', nombre: 'Administrador' },
+                    { email: 'estudiante@ejemplo.com', password: '123456', nombre: 'Estudiante' },
+                    { email: 'profesor@ejemplo.com', password: 'profesor123', nombre: 'Profesor' },
+                    { email: 'usuario@test.com', password: 'test123', nombre: 'Usuario Test' }
+                ];
+                // Guardar usuarios por defecto en localStorage
+                localStorage.setItem('usuariosRegistrados', JSON.stringify(usuariosDefault));
+                return usuariosDefault;
+            }
+        }
+
+        // Función para guardar usuarios en localStorage
+        function guardarUsuarios(usuarios) {
+            localStorage.setItem('usuariosRegistrados', JSON.stringify(usuarios));
+        }
+
+        // Cargar usuarios al inicio
+        let usuariosValidos = cargarUsuarios();
+
         // Manejar envío del formulario de login
         document.getElementById('form-login').addEventListener('submit', function (e) {
             e.preventDefault();
+            const email = document.getElementById('login-correo').value;
+            const password = document.getElementById('login-contraseña').value;
             const mensaje = document.getElementById('mensaje-login');
-            mensaje.textContent = '✓ Inicio de sesión exitoso';
-            mensaje.className = 'alert alert-success mt-3';
-            mensaje.classList.remove('d-none');
+            
+            // Recargar usuarios desde localStorage (por si se registró alguien nuevo)
+            usuariosValidos = cargarUsuarios();
+            
+            // Validar campos vacíos
+            if (!email || !password) {
+                mensaje.textContent = '✗ Por favor completa todos los campos';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Validar formato de email
+            if (!email.includes('@')) {
+                mensaje.textContent = '✗ Por favor ingresa un email válido';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Buscar usuario en la "base de datos"
+            const usuario = usuariosValidos.find(u => u.email === email && u.password === password);
+            
+            if (usuario) {
+                // Usuario encontrado - login exitoso
+                localStorage.setItem('userEmail', usuario.email);
+                localStorage.setItem('userName', usuario.nombre);
+                
+                mensaje.textContent = '✓ Inicio de sesión exitoso. Redirigiendo...';
+                mensaje.className = 'alert alert-success mt-3';
+                mensaje.classList.remove('d-none');
+                
+                // Redirigir al dashboard después de 1.5 segundos
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            } else {
+                // Usuario no encontrado
+                const usuarioExiste = usuariosValidos.find(u => u.email === email);
+                
+                if (usuarioExiste) {
+                    mensaje.textContent = '✗ Contraseña incorrecta. Intenta nuevamente.';
+                } else {
+                    mensaje.textContent = '✗ Usuario no encontrado. Debes registrarte primero.';
+                }
+                
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+            }
         });
 
         // Manejar envío del formulario de registro
         document.getElementById('form-register').addEventListener('submit', function (e) {
             e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('correo').value;
             const contraseña = document.getElementById('contraseña').value;
             const confirmacion = document.getElementById('confirmar-contraseña').value;
             const mensaje = document.getElementById('mensaje-registro');
             
-            if (contraseña === confirmacion) {
-                mensaje.textContent = '✓ Registro exitoso';
-                mensaje.className = 'alert alert-success mt-3';
-            } else {
+            // Validar campos vacíos
+            if (!nombre || !email || !contraseña || !confirmacion) {
+                mensaje.textContent = '✗ Por favor completa todos los campos';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Validar formato de email
+            if (!email.includes('@')) {
+                mensaje.textContent = '✗ Por favor ingresa un email válido';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Validar contraseñas
+            if (contraseña !== confirmacion) {
                 mensaje.textContent = '✗ Las contraseñas no coinciden';
                 mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
             }
+
+            // Validar longitud de contraseña
+            if (contraseña.length < 6) {
+                mensaje.textContent = '✗ La contraseña debe tener al menos 6 caracteres';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Recargar usuarios desde localStorage
+            usuariosValidos = cargarUsuarios();
+            
+            // Verificar si el email ya existe
+            const usuarioExiste = usuariosValidos.find(u => u.email === email);
+            
+            if (usuarioExiste) {
+                mensaje.textContent = '✗ Este email ya está registrado. Usa otro email o inicia sesión.';
+                mensaje.className = 'alert alert-danger mt-3';
+                mensaje.classList.remove('d-none');
+                return;
+            }
+
+            // Registro exitoso - agregar usuario a la "base de datos"
+            const nuevoUsuario = { email, password: contraseña, nombre };
+            usuariosValidos.push(nuevoUsuario);
+            
+            // Guardar usuarios actualizados en localStorage
+            guardarUsuarios(usuariosValidos);
+            
+            mensaje.textContent = '✓ Registro exitoso. Ahora puedes iniciar sesión.';
+            mensaje.className = 'alert alert-success mt-3';
             mensaje.classList.remove('d-none');
+            
+            // Limpiar formulario
+            document.getElementById('nombre').value = '';
+            document.getElementById('correo').value = '';
+            document.getElementById('contraseña').value = '';
+            document.getElementById('confirmar-contraseña').value = '';
+            
+            // Cambiar al formulario de login después de 2 segundos
+            setTimeout(() => {
+                showLoginForm();
+                // Limpiar mensaje
+                document.getElementById('mensaje-registro').classList.add('d-none');
+            }, 2000);
         });
 
         // Inicializar con el formulario de login

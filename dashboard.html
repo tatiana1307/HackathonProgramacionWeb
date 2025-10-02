@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Biblioteca Digital</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark dashboard-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-book me-2"></i>Biblioteca Digital
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="navbar-text text-white">
+                            <i class="bi bi-person-circle me-2"></i>Biblioteca Digital
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <div class="container py-5">
+        <!-- Título -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-3 dashboard-title">
+                    <i class="bi bi-mortarboard me-3 dashboard-icon"></i>Biblioteca Digital
+                </h1>
+                <p class="lead text-muted">Conceptos de Ingeniería de Sistemas</p>
+                <hr class="my-4 dashboard-hr">
+            </div>
+        </div>
+
+        <!-- Tarjetas de Materias -->
+        <div class="row g-4">
+            <!-- Estructuras de Datos -->
+            <div class="col-lg-6 col-xl-3">
+                <div class="card subject-card h-100 shadow-sm border-0" data-subject="estructuras">
+                    <div class="card-body text-center p-4">
+                        <div class="subject-icon mb-3">
+                            <i class="bi bi-diagram-3 fs-1 text-primary"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-primary">Estructuras de Datos</h5>
+                        <p class="card-text text-muted">Algoritmos, listas, árboles y grafos</p>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>Explorar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bases de Datos -->
+            <div class="col-lg-6 col-xl-3">
+                <div class="card subject-card h-100 shadow-sm border-0" data-subject="bases-datos">
+                    <div class="card-body text-center p-4">
+                        <div class="subject-icon mb-3">
+                            <i class="bi bi-database fs-1 text-success"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-success">Bases de Datos</h5>
+                        <p class="card-text text-muted">SQL, normalización y diseño</p>
+                        <button class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>Explorar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingeniería de Software -->
+            <div class="col-lg-6 col-xl-3">
+                <div class="card subject-card h-100 shadow-sm border-0" data-subject="ingenieria-software">
+                    <div class="card-body text-center p-4">
+                        <div class="subject-icon mb-3">
+                            <i class="bi bi-gear fs-1 text-warning"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-warning">Ingeniería de Software</h5>
+                        <p class="card-text text-muted">Metodologías y procesos de desarrollo</p>
+                        <button class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>Explorar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sistemas Operativos -->
+            <div class="col-lg-6 col-xl-3">
+                <div class="card subject-card h-100 shadow-sm border-0" data-subject="sistemas-operativos">
+                    <div class="card-body text-center p-4">
+                        <div class="subject-icon mb-3">
+                            <i class="bi bi-cpu fs-1 text-info"></i>
+                        </div>
+                        <h5 class="card-title fw-bold text-info">Sistemas Operativos</h5>
+                        <p class="card-text text-muted">Procesos, memoria y archivos</p>
+                        <button class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-arrow-right me-1"></i>Explorar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información del Usuario -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 bg-light">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Bienvenido</h6>
+                        <p class="card-text" id="user-info">Usuario logueado</p>
+                        <button class="btn btn-danger btn-lg px-4 py-2 rounded-pill fw-bold shadow-sm" id="logout-btn-bottom" style="transition: all 0.3s ease;">
+                            <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dashboard Script -->
+    <script>
+        // Verificar si el usuario está logueado
+        document.addEventListener('DOMContentLoaded', function() {
+            const userEmail = localStorage.getItem('userEmail');
+            const userName = localStorage.getItem('userName');
+            
+            if (!userEmail) {
+                // Si no hay usuario logueado, redirigir al login
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Mostrar información del usuario
+            const userInfo = document.getElementById('user-info');
+            if (userName) {
+                userInfo.textContent = `Hola, ${userName}!`;
+            } else {
+                userInfo.textContent = `Hola, ${userEmail}!`;
+            }
+            
+            // Agregar efectos a las tarjetas
+            const subjectCards = document.querySelectorAll('.subject-card');
+            subjectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+                
+                // Agregar funcionalidad de click
+                card.addEventListener('click', function() {
+                    const subject = this.getAttribute('data-subject');
+                    showSubjectPopup(subject);
+                });
+            });
+            
+            // Funcionalidad de logout
+            function handleLogout() {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    window.location.href = 'index.html';
+                }
+            }
+
+            document.getElementById('logout-btn-bottom').addEventListener('click', function(e) {
+                e.preventDefault();
+                handleLogout();
+            });
+        });
+
+        // Datos de palabras clave por materia
+        const subjectData = {
+            'estructuras': {
+                title: 'Estructuras de Datos',
+                color: '#0d6efd',
+                keywords: [
+                    { word: 'Array', definition: 'Estructura de datos que almacena elementos del mismo tipo en posiciones contiguas de memoria.' },
+                    { word: 'Lista Enlazada', definition: 'Estructura lineal donde cada elemento apunta al siguiente, permitiendo inserción y eliminación eficiente.' },
+                    { word: 'Pila (Stack)', definition: 'Estructura LIFO (Last In, First Out) que permite operaciones solo en el tope.' },
+                    { word: 'Cola (Queue)', definition: 'Estructura FIFO (First In, First Out) que permite inserción al final y eliminación al inicio.' },
+                    { word: 'Árbol', definition: 'Estructura jerárquica con nodos conectados por aristas, sin ciclos.' },
+                    { word: 'Grafo', definition: 'Conjunto de vértices conectados por aristas, puede ser dirigido o no dirigido.' },
+                    { word: 'Hash Table', definition: 'Estructura que mapea claves a valores usando una función hash para acceso rápido.' },
+                    { word: 'Heap', definition: 'Árbol binario completo que mantiene la propiedad de ordenamiento (min-heap o max-heap).' },
+                    { word: 'Árbol AVL', definition: 'Árbol binario de búsqueda auto-balanceado que mantiene altura logarítmica.' },
+                    { word: 'B-Tree', definition: 'Árbol balanceado de múltiples hijos, optimizado para sistemas de archivos y bases de datos.' }
+                ]
+            },
+            'bases-datos': {
+                title: 'Bases de Datos',
+                color: '#198754',
+                keywords: [
+                    { word: 'SQL', definition: 'Lenguaje de consulta estructurado para gestionar y manipular bases de datos relacionales.' },
+                    { word: 'Normalización', definition: 'Proceso de organizar datos para reducir redundancia y mejorar integridad.' },
+                    { word: 'ACID', definition: 'Propiedades: Atomicidad, Consistencia, Aislamiento y Durabilidad en transacciones.' },
+                    { word: 'Índice', definition: 'Estructura que mejora la velocidad de búsqueda en tablas de base de datos.' },
+                    { word: 'Clave Primaria', definition: 'Campo único que identifica de manera única cada registro en una tabla.' },
+                    { word: 'Clave Foránea', definition: 'Campo que establece relación entre tablas, referenciando una clave primaria.' },
+                    { word: 'Transacción', definition: 'Secuencia de operaciones que se ejecutan como una unidad atómica.' },
+                    { word: 'Vista', definition: 'Consulta almacenada que presenta datos de una o más tablas como una tabla virtual.' },
+                    { word: 'Trigger', definition: 'Procedimiento que se ejecuta automáticamente cuando ocurre un evento específico.' },
+                    { word: 'Stored Procedure', definition: 'Conjunto de instrucciones SQL precompiladas almacenadas en la base de datos.' }
+                ]
+            },
+            'ingenieria-software': {
+                title: 'Ingeniería de Software',
+                color: '#ffc107',
+                keywords: [
+                    { word: 'Metodología Ágil', definition: 'Enfoque iterativo e incremental para desarrollo de software con entregas frecuentes.' },
+                    { word: 'Scrum', definition: 'Framework ágil que organiza el trabajo en sprints de 2-4 semanas.' },
+                    { word: 'DevOps', definition: 'Cultura que integra desarrollo y operaciones para acelerar la entrega de software.' },
+                    { word: 'CI/CD', definition: 'Integración Continua y Despliegue Continuo para automatizar el pipeline de desarrollo.' },
+                    { word: 'Testing', definition: 'Proceso de verificar que el software cumple con los requisitos especificados.' },
+                    { word: 'Refactoring', definition: 'Reestructuración del código sin cambiar su comportamiento externo.' },
+                    { word: 'Design Pattern', definition: 'Solución reutilizable a problemas comunes en el diseño de software.' },
+                    { word: 'SOLID', definition: 'Principios de diseño: Single, Open/Closed, Liskov, Interface Segregation, Dependency Inversion.' },
+                    { word: 'Microservicios', definition: 'Arquitectura que descompone aplicaciones en servicios pequeños e independientes.' },
+                    { word: 'API REST', definition: 'Arquitectura de servicios web que utiliza HTTP para comunicación entre sistemas.' }
+                ]
+            },
+            'sistemas-operativos': {
+                title: 'Sistemas Operativos',
+                color: '#0dcaf0',
+                keywords: [
+                    { word: 'Proceso', definition: 'Programa en ejecución con su propio espacio de memoria y recursos asignados.' },
+                    { word: 'Thread', definition: 'Unidad básica de utilización de CPU, más ligera que un proceso.' },
+                    { word: 'Scheduler', definition: 'Componente que decide qué proceso ejecutar y cuándo.' },
+                    { word: 'Memoria Virtual', definition: 'Técnica que permite usar almacenamiento secundario como extensión de RAM.' },
+                    { word: 'Paginación', definition: 'Método de gestión de memoria que divide la memoria en páginas de tamaño fijo.' },
+                    { word: 'Sistema de Archivos', definition: 'Método de almacenamiento y organización de archivos en dispositivos de almacenamiento.' },
+                    { word: 'Deadlock', definition: 'Situación donde dos o más procesos esperan indefinidamente recursos del otro.' },
+                    { word: 'Sincronización', definition: 'Coordinación de acceso a recursos compartidos entre procesos concurrentes.' },
+                    { word: 'Kernel', definition: 'Núcleo del sistema operativo que gestiona recursos y proporciona servicios básicos.' },
+                    { word: 'Interrupt', definition: 'Señal que interrumpe la ejecución normal del procesador para manejar eventos.' }
+                ]
+            }
+        };
+
+        // Función para mostrar popup con palabras clave
+        function showSubjectPopup(subject) {
+            const data = subjectData[subject];
+            if (!data) return;
+
+            // Crear modal HTML
+            const modalHTML = `
+                <div class="modal fade" id="subjectModal" tabindex="-1" aria-labelledby="subjectModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background: linear-gradient(135deg, ${data.color}20 0%, ${data.color}40 100%); border-bottom: 2px solid ${data.color};">
+                                <h5 class="modal-title fw-bold" style="color: ${data.color};">
+                                    <i class="bi bi-book me-2"></i>${data.title}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <h6 class="mb-3 text-muted">Palabras Clave y Definiciones:</h6>
+                                <div class="row g-3">
+                                    ${data.keywords.map((item, index) => `
+                                        <div class="col-12">
+                                            <div class="card border-0 shadow-sm" style="border-left: 4px solid ${data.color} !important;">
+                                                <div class="card-body p-3">
+                                                    <h6 class="card-title mb-2 fw-bold" style="color: ${data.color};">
+                                                        ${index + 1}. ${item.word}
+                                                    </h6>
+                                                    <p class="card-text text-muted mb-0 small">
+                                                        ${item.definition}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="border-top: 1px solid ${data.color}20;">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-circle me-1"></i>Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remover modal existente si existe
+            const existingModal = document.getElementById('subjectModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Agregar modal al DOM
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+            // Mostrar modal
+            const modal = new bootstrap.Modal(document.getElementById('subjectModal'));
+            modal.show();
+
+            // Limpiar modal cuando se cierre
+            document.getElementById('subjectModal').addEventListener('hidden.bs.modal', function() {
+                this.remove();
+            });
+        }
+    </script>
+</body>
+
+</html>
