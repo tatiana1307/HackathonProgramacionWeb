@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login y Registro - Bootstrap</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Menú lateral deslizable -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header bg-primary text-white">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">
+                <i class="bi bi-person-circle me-2"></i>Mi Aplicación
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <nav class="navbar-nav">
+                <div class="nav-item">
+                    <a class="nav-link active" href="#" id="nav-login">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#" id="nav-register">
+                        <i class="bi bi-person-plus me-2"></i>Registrarse
+                    </a>
+                </div>
+                <hr class="my-2">
+                <div class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-house me-2"></i>Inicio
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-info-circle me-2"></i>Acerca de
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="bi bi-envelope me-2"></i>Contacto
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Sidebar para desktop -->
+            <div class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle display-4 text-primary"></i>
+                        <h5 class="mt-2">Mi Aplicación</h5>
+                    </div>
+                    <nav class="navbar-nav">
+                        <div class="nav-item">
+                            <a class="nav-link active" href="#" id="nav-login-desktop">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="#" id="nav-register-desktop">
+                                <i class="bi bi-person-plus me-2"></i>Registrarse
+                            </a>
+                        </div>
+                        <hr class="my-2">
+                        <div class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-house me-2"></i>Inicio
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-info-circle me-2"></i>Acerca de
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-envelope me-2"></i>Contacto
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4">
+                <!-- Header con botón hamburguesa -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <button class="btn btn-outline-primary d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                        <i class="bi bi-list"></i> Menú
+                    </button>
+                    <h1 class="h2">Bienvenido</h1>
+                </div>
+
+                <!-- Formularios -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-6">
+                        <!-- Formulario de Login -->
+                        <div id="login-form" class="form-container">
+                            <div class="card shadow">
+                                <div class="card-header bg-primary text-white text-center">
+                                    <h3 class="mb-0">
+                                        <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+                                    </h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="form-login">
+                                        <div class="mb-3">
+                                            <label for="login-correo" class="form-label">
+                                                <i class="bi bi-envelope me-1"></i>Correo electrónico
+                                            </label>
+                                            <input type="email" class="form-control" id="login-correo" name="correo" placeholder="Ingrese su correo" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="login-contraseña" class="form-label">
+                                                <i class="bi bi-lock me-1"></i>Contraseña
+                                            </label>
+                                            <input type="password" class="form-control" id="login-contraseña" name="contraseña" placeholder="Ingrese su contraseña" required>
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+                                            </button>
+                                        </div>
+
+                                        <div id="mensaje-login" class="alert alert-success mt-3 d-none" role="alert"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulario de Registro -->
+                        <div id="register-form" class="form-container d-none">
+                            <div class="card shadow">
+                                <div class="card-header bg-success text-white text-center">
+                                    <h3 class="mb-0">
+                                        <i class="bi bi-person-plus me-2"></i>Registrarse
+                                    </h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="form-register">
+                                        <div class="mb-3">
+                                            <label for="nombre" class="form-label">
+                                                <i class="bi bi-person me-1"></i>Nombre completo
+                                            </label>
+                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre completo" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="correo" class="form-label">
+                                                <i class="bi bi-envelope me-1"></i>Correo electrónico
+                                            </label>
+                                            <input type="email" class="form-control" id="correo" name="correo" placeholder="Ingrese su correo" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="telefono" class="form-label">
+                                                <i class="bi bi-telephone me-1"></i>Teléfono
+                                            </label>
+                                            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Ingrese su teléfono" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="contraseña" class="form-label">
+                                                <i class="bi bi-lock me-1"></i>Contraseña
+                                            </label>
+                                            <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Mínimo 8 caracteres" required>
+                                            <div id="fuerza-contraseña" class="progress mt-2" style="height: 8px;">
+                                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                            </div>
+                                            <small id="mensaje-contraseña" class="form-text"></small>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="confirmar-contraseña" class="form-label">
+                                                <i class="bi bi-lock-fill me-1"></i>Confirmar contraseña
+                                            </label>
+                                            <input type="password" class="form-control" id="confirmar-contraseña" name="confirmar-contraseña" placeholder="Confirme su contraseña" required>
+                                            <small id="mensaje-confirmacion" class="form-text"></small>
+                                        </div>
+
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg">
+                                                <i class="bi bi-person-plus me-2"></i>Registrarse
+                                            </button>
+                                        </div>
+
+                                        <div id="mensaje-registro" class="alert alert-success mt-3 d-none" role="alert"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Función para alternar entre formularios
+        function showLoginForm() {
+            document.getElementById('login-form').classList.remove('d-none');
+            document.getElementById('register-form').classList.add('d-none');
+            
+            // Actualizar navegación activa
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.getElementById('nav-login').classList.add('active');
+            document.getElementById('nav-login-desktop').classList.add('active');
+        }
+
+        function showRegisterForm() {
+            document.getElementById('login-form').classList.add('d-none');
+            document.getElementById('register-form').classList.remove('d-none');
+            
+            // Actualizar navegación activa
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.getElementById('nav-register').classList.add('active');
+            document.getElementById('nav-register-desktop').classList.add('active');
+        }
+
+        // Event listeners para navegación móvil
+        document.getElementById('nav-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            showLoginForm();
+            // Cerrar offcanvas en móvil
+            const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('sidebarMenu'));
+            if (offcanvas) offcanvas.hide();
+        });
+
+        document.getElementById('nav-register').addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegisterForm();
+            // Cerrar offcanvas en móvil
+            const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('sidebarMenu'));
+            if (offcanvas) offcanvas.hide();
+        });
+
+        // Event listeners para navegación desktop
+        document.getElementById('nav-login-desktop').addEventListener('click', function(e) {
+            e.preventDefault();
+            showLoginForm();
+        });
+
+        document.getElementById('nav-register-desktop').addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegisterForm();
+        });
+
+        // Validación de contraseña para registro
+        document.getElementById('contraseña').addEventListener('input', function () {
+            const progressBar = document.querySelector('#fuerza-contraseña .progress-bar');
+            const mensaje = document.getElementById('mensaje-contraseña');
+            const valor = this.value;
+            let fuerza = 0;
+
+            if (valor.length >= 8) fuerza++;
+            if (/[A-Z]/.test(valor)) fuerza++;
+            if (/[0-9]/.test(valor)) fuerza++;
+            if (/[^A-Za-z0-9]/.test(valor)) fuerza++;
+
+            if (valor.length === 0) {
+                progressBar.style.width = '0%';
+                progressBar.className = 'progress-bar';
+                mensaje.textContent = '';
+            } else if (fuerza <= 1) {
+                progressBar.style.width = '25%';
+                progressBar.className = 'progress-bar bg-danger';
+                mensaje.textContent = 'Contraseña débil';
+                mensaje.className = 'form-text text-danger';
+            } else if (fuerza === 2) {
+                progressBar.style.width = '50%';
+                progressBar.className = 'progress-bar bg-warning';
+                mensaje.textContent = 'Contraseña media';
+                mensaje.className = 'form-text text-warning';
+            } else if (fuerza === 3) {
+                progressBar.style.width = '75%';
+                progressBar.className = 'progress-bar bg-info';
+                mensaje.textContent = 'Contraseña buena';
+                mensaje.className = 'form-text text-info';
+            } else if (fuerza >= 4) {
+                progressBar.style.width = '100%';
+                progressBar.className = 'progress-bar bg-success';
+                mensaje.textContent = 'Contraseña muy segura';
+                mensaje.className = 'form-text text-success';
+            }
+
+            // Verificar confirmación de contraseña
+            verificarConfirmacion();
+        });
+
+        // Verificar confirmación de contraseña
+        document.getElementById('confirmar-contraseña').addEventListener('input', verificarConfirmacion);
+
+        function verificarConfirmacion() {
+            const contraseña = document.getElementById('contraseña').value;
+            const confirmacion = document.getElementById('confirmar-contraseña').value;
+            const mensaje = document.getElementById('mensaje-confirmacion');
+
+            if (confirmacion.length === 0) {
+                mensaje.textContent = '';
+                mensaje.className = 'form-text';
+            } else if (contraseña === confirmacion) {
+                mensaje.textContent = '✓ Las contraseñas coinciden';
+                mensaje.className = 'form-text text-success';
+            } else {
+                mensaje.textContent = '✗ Las contraseñas no coinciden';
+                mensaje.className = 'form-text text-danger';
+            }
+        }
+
+        // Manejar envío del formulario de login
+        document.getElementById('form-login').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const mensaje = document.getElementById('mensaje-login');
+            mensaje.textContent = '✓ Inicio de sesión exitoso';
+            mensaje.className = 'alert alert-success mt-3';
+            mensaje.classList.remove('d-none');
+        });
+
+        // Manejar envío del formulario de registro
+        document.getElementById('form-register').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const contraseña = document.getElementById('contraseña').value;
+            const confirmacion = document.getElementById('confirmar-contraseña').value;
+            const mensaje = document.getElementById('mensaje-registro');
+            
+            if (contraseña === confirmacion) {
+                mensaje.textContent = '✓ Registro exitoso';
+                mensaje.className = 'alert alert-success mt-3';
+            } else {
+                mensaje.textContent = '✗ Las contraseñas no coinciden';
+                mensaje.className = 'alert alert-danger mt-3';
+            }
+            mensaje.classList.remove('d-none');
+        });
+
+        // Inicializar con el formulario de login
+        showLoginForm();
+    </script>
+</body>
+
+</html>
